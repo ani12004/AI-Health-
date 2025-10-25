@@ -1,0 +1,5 @@
+{
+  "name": "AI Health Risk Predictor Dashboard",
+  "description": "A sleek, iOS-style dashboard for medical professionals to predict patient health risks. The application features a minimalistic and responsive design, a patient management list, and generates AI-powered health suggestions based on medical data.",
+  "requestFramePermissions": []
+}
