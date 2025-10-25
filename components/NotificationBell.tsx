@@ -10,7 +10,8 @@ export const NotificationBell: React.FC = () => {
   const panelRef = useRef<HTMLDivElement>(null);
 
   const userNotifications = useMemo(() => {
-    return notifications.filter(n => n.userId === user?.id).sort((a, b) => b.timestamp - a.timestamp);
+    if (!user) return [];
+    return notifications.filter(n => n.userId === user.id).sort((a, b) => b.timestamp - a.timestamp);
   }, [notifications, user]);
 
   const unreadCount = useMemo(() => {
@@ -18,9 +19,9 @@ export const NotificationBell: React.FC = () => {
   }, [userNotifications]);
 
   const handleToggle = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen && unreadCount > 0 && user) {
-      // Mark as read when opening
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    if (newIsOpen && unreadCount > 0 && user) {
       markNotificationsAsRead(user.id);
     }
   };
@@ -37,40 +38,34 @@ export const NotificationBell: React.FC = () => {
 
   return (
     <div className="relative" ref={panelRef}>
-      <button onClick={handleToggle} className="relative text-gray-600 hover:text-ios-blue transition-colors">
+      <button onClick={handleToggle} className="relative text-gray-600 dark:text-gray-300 hover:text-health-buddy-blue dark:hover:text-health-buddy-blue transition-colors">
         {unreadCount > 0 ? <BellDot size={24} className="text-red-500" /> : <Bell size={24} />}
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-lg shadow-ios-lg border border-gray-200 z-50 animate-fade-in-fast">
-          <div className="p-3 border-b border-gray-200">
-            <h3 className="font-semibold text-gray-800">Notifications</h3>
+        <div className="absolute top-full right-0 mt-2 w-80 bg-white/50 dark:bg-gray-800/50 backdrop-blur-xl rounded-lg shadow-ios-lg-dark border border-white/20 dark:border-white/10 z-50 animate-fade-in-fast">
+          <div className="p-3 border-b border-black/10 dark:border-white/10">
+            <h3 className="font-semibold text-gray-800 dark:text-gray-100">Notifications</h3>
           </div>
           <div className="max-h-96 overflow-y-auto custom-scrollbar">
             {userNotifications.length > 0 ? (
               userNotifications.map(n => (
-                <div key={n.id} className="p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50">
-                  <p className="text-sm text-gray-700">{n.message}</p>
-                  {n.link && (
-                    <a href={n.link} target="_blank" rel="noopener noreferrer" className="text-xs text-ios-blue font-semibold hover:underline mt-1 block">
-                      View Meeting
-                    </a>
-                  )}
-                  <p className="text-xs text-gray-400 mt-1">{new Date(n.timestamp).toLocaleString()}</p>
+                <div key={n.id} className="p-3 border-b border-black/5 dark:border-white/5 last:border-b-0 hover:bg-black/5 dark:hover:bg-white/5">
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{n.message}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(n.timestamp).toLocaleString()}</p>
                 </div>
               ))
             ) : (
-              <p className="p-4 text-sm text-center text-gray-500">No new notifications.</p>
+              <p className="p-4 text-sm text-center text-gray-500 dark:text-gray-400">No new notifications.</p>
             )}
           </div>
         </div>
       )}
       <style>{`
-        .animate-fade-in-fast { animation: fadeInFast 0.2s ease-out forwards; }
-        @keyframes fadeInFast { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, 0.15); border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); }
       `}</style>
     </div>
   );

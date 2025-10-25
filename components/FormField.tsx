@@ -22,21 +22,21 @@ export const FormField: React.FC<FormFieldProps> = ({
 }) => (
   <div>
     <div className="flex items-center mb-2">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-600">
+      <label htmlFor={name} className="block text-sm font-medium text-gray-600 dark:text-gray-300">
         {label}
       </label>
       {tooltipText && <Tooltip text={tooltipText} />}
     </div>
     <div className="relative">
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <Icon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+        <Icon className="h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
       </div>
       <Field
         id={name}
         name={name}
         type={type}
         placeholder={placeholder}
-        className="block w-full rounded-lg border-gray-200 bg-gray-50 py-3 pl-10 pr-3 text-gray-800 shadow-sm transition-colors duration-300 placeholder:text-gray-400 focus:border-ios-blue focus:bg-white focus:ring-2 focus:ring-ios-blue focus:shadow-ios-focus"
+        className="block w-full rounded-lg border-transparent bg-black/10 dark:bg-white/10 py-3 pl-10 pr-3 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
       />
     </div>
   </div>

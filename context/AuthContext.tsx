@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import type { User, Role } from '../types';
+import type { User, Role } from '../components/types';
 
 // Mock Users
 const mockUsers: User[] = [
@@ -36,6 +36,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const logout = () => {
         setUser(null);
+        // In a real app with routing, you might want to redirect here.
+        // For this setup, the redirect is handled in the dashboard page component.
     };
 
     return (

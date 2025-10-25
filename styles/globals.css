@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --glow-color: rgba(0, 191, 255, 0.6);
+  --glow-color-faint: rgba(0, 191, 255, 0.3);
+}
+.dark {
+  --glow-color: rgba(0, 191, 255, 0.7);
+  --glow-color-faint: rgba(0, 191, 255, 0.4);
+}
+
+body {
+  @apply min-h-screen bg-gradient-futuristic-light dark:bg-gradient-futuristic bg-[length:200%_200%] animate-gradient-pan font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300;
+}
