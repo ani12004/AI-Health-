@@ -20,9 +20,9 @@ export const SegmentedControl = <T extends string>({
       <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
         {label}
       </label>
-      <div className="relative grid grid-cols-2 gap-1 rounded-lg bg-black/10 dark:bg-white/10 p-1">
+      <div className="relative grid grid-cols-2 gap-1 rounded-lg bg-slate-200/60 dark:bg-slate-900/40 p-1">
         <div 
-          className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-md bg-white/80 dark:bg-black/20 shadow-md transition-transform duration-300 ease-in-out"
+          className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-md bg-white dark:bg-slate-700 shadow-md transition-transform duration-300 ease-in-out"
           style={{ transform: `translateX(${selectedIndex * 100}%)` }}
           aria-hidden="true"
         />
@@ -34,7 +34,7 @@ export const SegmentedControl = <T extends string>({
             className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-md transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-health-buddy-blue focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
               selectedValue === value
                 ? 'text-health-buddy-blue'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white'
             }`}
             aria-pressed={selectedValue === value}
           >

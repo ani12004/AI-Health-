@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import type { User, Role } from '../components/types';
+import type { User, Role } from '../types';
 
 // Mock Users
 const mockUsers: User[] = [

@@ -16,12 +16,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
       :root {
-        --glow-color: rgba(0, 191, 255, 0.6);
-        --glow-color-faint: rgba(0, 191, 255, 0.3);
+        --glow-color: rgba(56, 189, 248, 0.6);
+        --glow-color-faint: rgba(56, 189, 248, 0.3);
       }
       .dark {
-        --glow-color: rgba(0, 191, 255, 0.7);
-        --glow-color-faint: rgba(0, 191, 255, 0.4);
+        --glow-color: rgba(56, 189, 248, 0.7);
+        --glow-color-faint: rgba(56, 189, 248, 0.4);
       }
     </style>
     <script>
@@ -33,21 +33,25 @@
               sans: ['Inter', 'sans-serif'],
             },
             colors: {
-              'ios-blue': '#0A84FF',
-              'health-buddy-blue': '#00BFFF',
+              'health-buddy-blue': '#38BDF8',
+              'health-positive': '#10B981',
+              'health-negative': '#EF4444',
+              'health-ai': '#A855F7',
+              'dark-bg': '#0D1117',
+              'dark-card': '#1E1E1E',
             },
             boxShadow: {
               'ios': '0 4px 12px rgba(0, 0, 0, 0.08)',
-              'ios-dark': '0 4px 12px rgba(0, 0, 0, 0.25)',
+              'ios-dark': '0 4px 16px rgba(0, 0, 0, 0.4)',
               'ios-lg': '0 10px 20px rgba(0, 0, 0, 0.08)',
-              'ios-lg-dark': '0 10px 20px rgba(0, 0, 0, 0.25)',
+              'ios-lg-dark': '0 10px 25px rgba(0, 0, 0, 0.4)',
               'glow-blue': '0 0 15px var(--glow-color)',
               'glow-blue-light': '0 0 8px var(--glow-color-faint)',
               'glow-selected': '0 0 12px var(--glow-color-faint)',
             },
             backgroundImage: {
-              'gradient-futuristic': 'linear-gradient(225deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
-              'gradient-futuristic-light': 'linear-gradient(225deg, #e0f2fe 0%, #f0f9ff 50%, #e0f2fe 100%)',
+              'gradient-dark': 'linear-gradient(225deg, #0D1117 0%, #161B22 50%, #0D1117 100%)',
+              'gradient-light': 'linear-gradient(225deg, #f0f9ff 0%, #ffffff 50%, #f0f9ff 100%)',
             },
             animation: {
               'fade-in': 'fadeIn 0.5s ease-out forwards',

@@ -21,16 +21,16 @@ export const SelectField: React.FC<SelectFieldProps> = ({
     </label>
     <div className="relative">
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <Icon className="h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
+        <Icon className="h-5 w-5 text-gray-400 dark:text-gray-400" aria-hidden="true" />
       </div>
       <Field
         as="select"
         id={name}
         name={name}
-        className="block w-full appearance-none rounded-lg border-transparent bg-black/10 dark:bg-white/10 py-3 pl-10 pr-10 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
+        className="block w-full appearance-none rounded-lg border-transparent bg-slate-200/60 dark:bg-slate-900/40 py-3 pl-10 pr-10 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
       >
         {options.map((option) => (
-          <option key={option} value={option} className="bg-white dark:bg-gray-800">
+          <option key={option} value={option} className="bg-white dark:bg-slate-800">
             {option}
           </option>
         ))}

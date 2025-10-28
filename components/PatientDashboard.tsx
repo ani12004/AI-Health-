@@ -13,62 +13,186 @@ import { ThemeToggle } from './ThemeToggle';
 import Head from 'next/head';
 
 const generateDetailedAISuggestions = (data: Omit<HealthData, 'id' | 'userId' | 'patientName' | 'consultationStatus'>): string => {
-    let assessment = "Overall assessment: ";
-    const dos: string[] = [];
-    const donts: string[] = [];
+    
+    const suggestionsByCategory: { [key: string]: string[] } = {};
 
+    const addSuggestion = (category: string, suggestion: string) => {
+        if (!suggestionsByCategory[category]) {
+            suggestionsByCategory[category] = [];
+        }
+        suggestionsByCategory[category].push(suggestion);
+    };
+
+    // 1. BMI Assessment 🏋️
     const bmi = parseFloat(data.bmi);
-    if (bmi > 25) {
-        assessment += "BMI is higher than the recommended range. ";
-        dos.push("Incorporate regular exercise like brisk walking or cycling for at least 30 minutes, 3-5 times a week.");
-        dos.push("Focus on a balanced diet with more vegetables, lean proteins, and whole grains.");
-        donts.push("Avoid sugary drinks and processed foods high in unhealthy fats and empty calories.");
+    if (bmi >= 25) {
+        addSuggestion(
+            'Body Mass Index (BMI) 🏋️',
+            `Your BMI of ${data.bmi} is in the overweight/obese range. A healthy BMI is typically between 18.5 and 24.9. Focusing on gradual, sustainable changes is key.`
+        );
+        addSuggestion(
+            'Diet 🥗',
+            'Adopt the "plate method": Fill half your plate with non-starchy vegetables (like broccoli, spinach, peppers), a quarter with lean protein (chicken, fish, tofu), and a quarter with complex carbs (quinoa, sweet potatoes).'
+        );
+        addSuggestion(
+            'Exercise 🏃‍♀️',
+            'Target 150 minutes of moderate-intensity cardio weekly (e.g., 30 minutes/day, 5 days/week of brisk walking, swimming, or cycling) plus two days of strength training (weights, bodyweight exercises).'
+        );
+        addSuggestion(
+            'Lifestyle Habits 💡',
+            'Practice mindful eating: pay attention to hunger cues and eat slowly. Using smaller plates can also help manage portion sizes effectively.'
+        );
     } else if (bmi < 18.5) {
-        assessment += "BMI is lower than the recommended range. ";
-        dos.push("Consider consulting a nutritionist to ensure you're getting enough nutrients.");
-        dos.push("Incorporate nutrient-dense foods like avocados, nuts, and whole grains.");
-        donts.push("Avoid skipping meals; aim for regular, balanced meals throughout the day.");
+        addSuggestion(
+            'Body Mass Index (BMI) 🏋️',
+            `Your BMI of ${data.bmi} is in the underweight range. Ensuring adequate nutrition is important for energy and overall health.`
+        );
+        addSuggestion(
+            'Diet 🥗',
+            'Focus on nutrient-dense foods. Add healthy fats like avocado, nuts, and seeds to meals. Consider nutrient-rich smoothies with protein powder, fruit, and spinach.'
+        );
+        addSuggestion(
+            'Lifestyle Habits 💡',
+            'Eat smaller, more frequent meals (5-6 per day) if you feel full quickly. Consulting a registered dietitian can provide a personalized plan.'
+        );
     } else {
-        assessment += "BMI is within a healthy range. ";
-        dos.push("Maintain your current balanced diet and regular physical activity.");
+        addSuggestion(
+            'Body Mass Index (BMI) 🏋️',
+            `Your BMI of ${data.bmi} is in a healthy range. Excellent! Maintain your current habits and explore new healthy recipes or activities to stay motivated.`
+        );
     }
 
+    // 2. Blood Pressure Assessment 🩺
     const systolic = parseInt(data.systolic);
     const diastolic = parseInt(data.diastolic);
-    if (systolic > 130 || diastolic > 85) {
-        assessment += "Blood pressure is elevated. ";
-        dos.push("Reduce sodium intake by avoiding processed foods and not adding extra salt to meals.");
-        dos.push("Practice stress-reducing activities like meditation, yoga, or deep breathing exercises.");
-        donts.push("Limit caffeine and alcohol consumption, as they can raise blood pressure.");
+    if (systolic >= 130 || diastolic >= 80) {
+        addSuggestion(
+            'Blood Pressure 🩺',
+            `Your reading of ${data.systolic}/${data.diastolic} mmHg is elevated. High blood pressure increases the risk of heart disease and stroke.`
+        );
+        addSuggestion(
+            'Diet 🥗',
+            'Significantly reduce sodium intake by avoiding processed foods and canned soups. Aim for less than 2,300 mg per day. The DASH diet is a proven approach.'
+        );
+        addSuggestion(
+            'Lifestyle Habits 💡',
+            'Limit alcohol to no more than 1 drink/day for women, 2 for men. Practice daily stress management for 10-15 minutes (meditation, deep breathing, journaling).'
+        );
     } else {
-        dos.push("Continue monitoring your blood pressure regularly.");
+        addSuggestion(
+            'Blood Pressure 🩺',
+            'Your blood pressure is in a healthy range. Keep up the great work!'
+        );
     }
     
+    // 3. Cholesterol Assessment 🩸
     const cholesterol = parseInt(data.cholesterol);
     if (cholesterol > 200) {
-        assessment += "Cholesterol levels are high. ";
-        dos.push("Increase intake of soluble fiber from sources like oats, apples, and beans.");
-        dos.push("Choose healthy fats, such as those found in olive oil, avocados, and fish.");
-        donts.push("Avoid foods high in saturated and trans fats, like fried foods and fatty meats.");
+        addSuggestion(
+            'Cholesterol 🩸',
+            `Your total cholesterol of ${data.cholesterol} mg/dL is high. It's important to manage this to protect your arteries.`
+        );
+        addSuggestion(
+            'Diet 🥗',
+            'Increase soluble fiber (oats, beans, apples) and replace saturated/trans fats with unsaturated fats. Add sources of Omega-3s like salmon or walnuts to your diet twice a week.'
+        );
+    } else {
+        addSuggestion('Cholesterol 🩸', 'Your cholesterol level is within a healthy range.');
+    }
+
+    // 4. Glucose Assessment 🍬
+    const glucose = parseInt(data.glucose);
+    if (glucose >= 100) {
+        addSuggestion(
+            'Blood Sugar (Glucose) 🍬',
+            `Your fasting glucose of ${data.glucose} mg/dL is elevated, suggesting pre-diabetes risk. Prompt lifestyle changes can significantly reduce the risk of developing type 2 diabetes.`
+        );
+        addSuggestion(
+            'Diet 🥗',
+            'Minimize sugary drinks and refined carbs (white bread, pasta). Prioritize non-starchy vegetables, lean proteins, and whole grains to stabilize blood sugar.'
+        );
+         addSuggestion(
+            'Exercise 🏃‍♀️',
+            'Regular exercise improves insulin sensitivity. Even a 10-15 minute walk after meals can help manage blood sugar levels.'
+        );
+    } else {
+        addSuggestion('Blood Sugar (Glucose) 🍬', 'Your glucose level is in a healthy range.');
     }
     
+    // 5. Lifestyle Factors
     if (data.smoking === 'Yes') {
-        assessment += "Smoking is a major risk factor. ";
-        dos.push("Seek support for smoking cessation, such as counseling or nicotine replacement therapy.");
-        donts.push("Avoid situations that trigger the urge to smoke.");
+        addSuggestion(
+            'Lifestyle Habits 💡',
+            'Quitting smoking is the single most effective action you can take to improve your health. Speak with your doctor about support resources like counseling and nicotine replacement therapy.'
+        );
+    }
+    
+    if (data.alcohol === 'Yes' && (systolic < 130 && diastolic < 80)) {
+        addSuggestion('Lifestyle Habits 💡', 'If you consume alcohol, do so in moderation (up to 1 drink/day for women, 2 for men) to minimize health risks.');
     }
 
     if (parseInt(data.activity) < 3) {
-        assessment += "Physical activity level is low. ";
-        dos.push("Aim for at least 150 minutes of moderate-intensity aerobic activity per week.");
-        donts.push("Avoid a sedentary lifestyle; take short breaks to walk and stretch if you have a desk job.");
+        addSuggestion(
+            'Exercise 🏃‍♀️',
+            `An activity level of ${data.activity} days/week is below recommendations. Find an enjoyable activity to build consistency. Start small, e.g., a 15-minute daily walk, and gradually increase.`
+        );
     }
 
-    // Filter out duplicate recommendations
-    const uniqueDos = [...new Set(dos)];
-    const uniqueDonts = [...new Set(donts)];
+    if (data.familyHistory === 'Yes') {
+         addSuggestion(
+            'General Health ⚕️',
+            'Your family history increases your predisposition to certain conditions. Regular health screenings and a proactive approach to lifestyle are particularly important for you.'
+        );
+    }
 
-    return `${assessment.trim()}\n\n✅ Do's:\n- ${uniqueDos.join('\n- ')}\n\n❌ Don'ts:\n- ${uniqueDonts.join('\n- ')}`;
+    // 6. General Preventative Measures
+    addSuggestion(
+        'Preventative Care 🛡️',
+        'Hydration Goal: Aim to drink around 8 glasses (2 liters) of water daily. Proper hydration is crucial for energy, organ function, and skin health.'
+    );
+    addSuggestion(
+        'Preventative Care 🛡️',
+        'Sleep Hygiene: Target 7-9 hours of quality sleep per night. Create a relaxing bedtime routine and maintain a consistent sleep/wake schedule.'
+    );
+     addSuggestion(
+        'Preventative Care 🛡️',
+        'Mental Wellness: Dedicate time to activities that reduce stress and bring you joy, such as hobbies, mindfulness, or spending time in nature.'
+    );
+    addSuggestion(
+        'Preventative Care 🛡️',
+        'Regular Check-ups: Schedule annual physicals and recommended screenings with your doctor to monitor your health and catch potential issues early.'
+    );
+
+
+    // Format the final output string
+    let finalSuggestions = "⭐ Personalized Health Assessment ⭐\n\n";
+
+    const categoryOrder = [
+        'Body Mass Index (BMI) 🏋️',
+        'Blood Pressure 🩺',
+        'Cholesterol 🩸',
+        'Blood Sugar (Glucose) 🍬',
+        'Diet 🥗',
+        'Exercise 🏃‍♀️',
+        'Lifestyle Habits 💡',
+        'General Health ⚕️',
+        'Preventative Care 🛡️',
+    ];
+
+    for (const category of categoryOrder) {
+        if (suggestionsByCategory[category]) {
+            const uniqueSuggestions = [...new Set(suggestionsByCategory[category])];
+            finalSuggestions += `${category}\n`;
+            uniqueSuggestions.forEach(suggestion => {
+                finalSuggestions += `• ${suggestion}\n`;
+            });
+            finalSuggestions += '\n';
+        }
+    }
+    
+    finalSuggestions += "Disclaimer: This is an AI-generated summary and not a substitute for professional medical advice. Please consult with a healthcare provider for any health concerns.";
+
+    return finalSuggestions.trim();
 };
 
 export const PatientDashboard: React.FC = () => {

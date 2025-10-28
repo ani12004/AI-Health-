@@ -8,10 +8,13 @@ export interface User {
   role: Role;
 }
 
+// FIX: Updated HealthData to match the new form fields and data model.
 export interface HealthData {
   id: string;
   userId: string;
   patientName: string;
+
+  // Form inputs from PatientDashboard
   age: string;
   gender: 'Male' | 'Female' | 'Other';
   bmi: string;
@@ -19,15 +22,17 @@ export interface HealthData {
   diastolic: string;
   cholesterol: string;
   glucose: string;
-  smoking: 'No' | 'Yes';
-  alcohol: 'No' | 'Yes';
-  activity: string;
-  familyHistory: 'No' | 'Yes';
-  // New properties for consultation flow
+  smoking: 'Yes' | 'No';
+  alcohol: 'Yes' | 'No';
+  activity: string; // days/wk
+  familyHistory: 'Yes' | 'No';
+
+  // App-specific properties
   score?: number;
   aiSuggestions?: string;
   consultationStatus: 'private' | 'requested' | 'reviewed';
 }
+
 
 export interface ChatMessage {
   id: string;

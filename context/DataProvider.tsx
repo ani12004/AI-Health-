@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
-import type { HealthData, Notification, ChatMessage } from '../components/types';
+import type { HealthData, Notification, ChatMessage } from '../types';
 
 // This context will simulate a shared database for reports, notifications, and messages
 interface DataContextType {
@@ -15,38 +15,45 @@ interface DataContextType {
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-// Mock Data for Demonstration
 const mockInitialReport: HealthData = {
     id: 'report-01',
     userId: 'user-01',
     patientName: 'Jane Doe',
-    age: '35',
+    age: '52',
     gender: 'Female',
-    bmi: '22.5',
-    systolic: '125',
-    diastolic: '82',
-    cholesterol: '210',
-    glucose: '98',
-    smoking: 'No',
-    alcohol: 'Yes',
+    bmi: '29.5',
+    systolic: '140',
+    diastolic: '90',
+    cholesterol: '250',
+    glucose: '110',
+    smoking: 'Yes',
+    alcohol: 'No',
     activity: '2',
-    familyHistory: 'No',
-    score: 55,
-    aiSuggestions: `Overall assessment: BMI is within a healthy range. Blood pressure is elevated. Cholesterol levels are high. Physical activity level is low. 
+    familyHistory: 'Yes',
+    score: 75,
+    aiSuggestions: `⭐ **Personalized Health Assessment** ⭐
 
-✅ Do's:
-- Maintain your current balanced diet and regular physical activity.
-- Reduce sodium intake by avoiding processed foods and not adding extra salt to meals.
-- Practice stress-reducing activities like meditation, yoga, or deep breathing exercises.
-- Continue monitoring your blood pressure regularly.
-- Increase intake of soluble fiber from sources like oats, apples, and beans.
-- Choose healthy fats, such as those found in olive oil, avocados, and fish.
-- Aim for at least 150 minutes of moderate-intensity aerobic activity per week.
+This is a sample AI-generated summary based on the provided data.
 
-❌ Don'ts:
-- Limit caffeine and alcohol consumption, as they can raise blood pressure.
-- Avoid foods high in saturated and trans fats, like fried foods and fatty meats.
-- Avoid a sedentary lifestyle; take short breaks to walk and stretch if you have a desk job.`,
+- **Cardiovascular Risk:** Your profile indicates several risk factors for heart disease. These include elevated blood pressure (140/90 mmHg), high cholesterol (250 mg/dL), and elevated fasting blood sugar levels.
+- **Lifestyle:** Your smoking status is a major contributor to your cardiovascular risk. Your activity level is lower than recommended, and a family history of heart disease also increases your risk.
+
+### Recommendations
+
+#### ✅ Do's:
+- **Urgent Medical Consultation:** It is highly recommended to see a doctor immediately to discuss these results.
+- **Quit Smoking:** This is the most critical change. Your doctor can provide resources to help you quit.
+- **Dietary Changes:** Adopt a heart-healthy diet like DASH or Mediterranean. Focus on reducing sodium, saturated fats, and sugars.
+- **Increase Activity:** Gradually increase physical activity under medical supervision.
+
+#### ❌ Don'ts:
+- **Do not ignore these results.**
+- **Avoid high-sodium and processed foods.**
+- **Do not start a vigorous exercise program without consulting your doctor.**
+
+---
+
+*Disclaimer: This is an AI-generated summary and not a substitute for professional medical advice. Please consult with a healthcare provider for any health concerns.*`,
     consultationStatus: 'requested',
 };
 
@@ -55,7 +62,7 @@ const mockInitialMessages: ChatMessage[] = [
         id: 'msg-01',
         reportId: 'report-01',
         sender: { id: 'doc-01', name: 'Dr. Alan Grant', role: 'Doctor' },
-        text: "Hello Jane, I've reviewed your report. The AI suggestions are a good starting point. Let's discuss your cholesterol levels.",
+        text: "Hello Jane, I've reviewed your report. The AI suggestions are a good starting point. Let's discuss your cholesterol levels and smoking.",
         timestamp: Date.now() - 180000,
     },
     {

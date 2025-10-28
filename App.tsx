@@ -34,7 +34,7 @@ export const App: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-futuristic-light dark:bg-gradient-futuristic bg-[length:200%_200%] animate-gradient-pan font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300">
+        <div className="min-h-screen bg-gradient-light dark:bg-gradient-dark bg-[length:200%_200%] animate-gradient-pan font-sans text-gray-800 dark:text-gray-100 transition-colors duration-500">
             {renderContent()}
         </div>
     );

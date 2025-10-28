@@ -3,6 +3,7 @@ import { User, Key, LogIn, HeartPulse } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import type { Role } from '../types';
 import { SegmentedControl } from '../components/SegmentedControl';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export const LoginPage: React.FC = () => {
   const { login, error } = useAuth();
@@ -17,19 +18,23 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-fade-in">
-      <header className="text-center mb-10">
-        <div className="inline-flex items-center justify-center bg-black/10 dark:bg-white/10 p-4 rounded-full shadow-lg mb-4 backdrop-blur-sm">
-          <HeartPulse className="text-health-buddy-blue" size={48} />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Welcome to Health Buddy
-        </h1>
-        <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
-          Sign in to access your dashboard.
-        </p>
+      <header className="w-full max-w-7xl mx-auto flex justify-between items-center py-4 absolute top-0 inset-x-0 px-4">
+          <div className="flex items-center space-x-3">
+              <HeartPulse className="text-health-buddy-blue h-8 w-8" />
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">Health Buddy</h1>
+          </div>
+          <ThemeToggle />
       </header>
-      <main className="w-full max-w-sm">
-        <div className="bg-black/10 dark:bg-white/5 backdrop-blur-lg border border-white/20 dark:border-white/10 rounded-2xl shadow-ios-dark p-8">
+      <main className="w-full max-w-sm flex flex-col items-center justify-center flex-grow">
+        <div className="text-center mb-10">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Welcome Back
+            </h2>
+            <p className="mt-4 text-lg text-gray-500 dark:text-gray-300">
+              Sign in to access your dashboard.
+            </p>
+        </div>
+        <div className="w-full bg-white/60 dark:bg-dark-card/80 backdrop-blur-lg border border-slate-300/50 dark:border-slate-700/50 rounded-2xl shadow-ios-dark p-8 transition-colors duration-500">
           <form onSubmit={handleSubmit} className="space-y-6">
             <SegmentedControl<Role>
                 label="Select your role:"
@@ -50,7 +55,7 @@ export const LoginPage: React.FC = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder={role === 'Patient' ? 'patient' : 'doctor'}
-                  className="block w-full rounded-lg border-transparent bg-black/10 dark:bg-white/10 py-3 pl-10 pr-3 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
+                  className="block w-full rounded-lg border-transparent bg-slate-200/60 dark:bg-slate-900/40 py-3 pl-10 pr-3 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
                   required
                 />
               </div>
@@ -69,7 +74,7 @@ export const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="********"
-                  className="block w-full rounded-lg border-transparent bg-black/10 dark:bg-white/10 py-3 pl-10 pr-3 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
+                  className="block w-full rounded-lg border-transparent bg-slate-200/60 dark:bg-slate-900/40 py-3 pl-10 pr-3 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
                   required
                 />
               </div>
@@ -89,8 +94,8 @@ export const LoginPage: React.FC = () => {
           </form>
         </div>
       </main>
-      <footer className="w-full text-center mt-12 pb-4">
-        <p className="text-sm text-gray-500 dark:text-gray-500">&copy; 2025 Health Buddy</p>
+      <footer className="w-full text-center pb-4">
+        <p className="text-sm text-gray-500 dark:text-gray-400">&copy; 2025 Health Buddy</p>
       </footer>
     </div>
   );

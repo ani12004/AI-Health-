@@ -43,7 +43,7 @@ export const NotificationBell: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-80 bg-white/50 dark:bg-gray-800/50 backdrop-blur-xl rounded-lg shadow-ios-lg-dark border border-white/20 dark:border-white/10 z-50 animate-fade-in-fast">
+        <div className="absolute top-full right-0 mt-2 w-80 bg-slate-50/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-lg shadow-ios-lg-dark border border-white/20 dark:border-white/10 z-50 animate-fade-in-fast">
           <div className="p-3 border-b border-black/10 dark:border-white/10">
             <h3 className="font-semibold text-gray-800 dark:text-gray-100">Notifications</h3>
           </div>
@@ -52,7 +52,7 @@ export const NotificationBell: React.FC = () => {
               userNotifications.map(n => (
                 <div key={n.id} className="p-3 border-b border-black/5 dark:border-white/5 last:border-b-0 hover:bg-black/5 dark:hover:bg-white/5">
                   <p className="text-sm text-gray-700 dark:text-gray-300">{n.message}</p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(n.timestamp).toLocaleString()}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-400 mt-1">{new Date(n.timestamp).toLocaleString()}</p>
                 </div>
               ))
             ) : (

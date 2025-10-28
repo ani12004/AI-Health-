@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Send, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataProvider';
-import type { HealthData, User } from './types';
+import type { HealthData, User } from '../types';
 
 interface ChatInterfaceProps {
   report: HealthData;
@@ -49,69 +49,66 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ report, onClose })
         userId: otherParticipant.id,
         message: `You have a new message from ${user.name}.`,
         read: false,
-        timestamp: Date.now()
+        timestamp: Date.now(),
     });
 
     setNewMessage('');
   };
   
-  const handleTextareaInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewMessage(e.target.value);
-    e.target.style.height = 'auto';
-    e.target.style.height = `${e.target.scrollHeight}px`;
-  };
-
   return (
-    <div className="flex flex-col h-full bg-black/10 dark:bg-white/5 backdrop-blur-lg border border-white/20 dark:border-white/10 rounded-2xl shadow-inner w-full">
-      {/* Chat Header */}
-      <div className="flex items-center justify-between p-3 border-b border-black/10 dark:border-white/10 flex-shrink-0">
-        <h3 className="font-bold text-gray-800 dark:text-gray-100">Chat with {otherParticipant.name}</h3>
-        <button onClick={onClose} className="p-1 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+    <div className="flex flex-col h-full w-full max-w-lg mx-auto bg-slate-100/80 dark:bg-slate-800/30 backdrop-blur-lg border border-slate-300/50 dark:border-slate-700/50 rounded-2xl shadow-ios-dark animate-fade-in-fast">
+      <header className="flex items-center justify-between p-4 border-b border-black/10 dark:border-white/10">
+        <h3 className="font-bold text-gray-900 dark:text-white">Chat with {otherParticipant.name}</h3>
+        <button onClick={onClose} className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10">
           <X size={20} />
         </button>
-      </div>
-
-      {/* Messages Area */}
-      <div className="flex-grow p-4 space-y-4 overflow-y-auto custom-scrollbar">
-        {chatMessages.map(msg => {
-          const isSentByMe = msg.sender.id === user?.id;
-          // Animate messages that are less than 2 seconds old to make new messages pop
-          const isRecent = (Date.now() - msg.timestamp) < 2000;
-          return (
-            <div key={msg.id} className={`flex ${isSentByMe ? 'justify-end' : 'justify-start'} ${isRecent ? 'animate-message-in' : ''}`}>
-              <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl shadow-sm ${isSentByMe ? 'bg-health-buddy-blue text-white' : 'bg-gray-200/80 dark:bg-gray-700/80 text-gray-800 dark:text-gray-200'}`}>
+      </header>
+      <div className="flex-grow p-4 overflow-y-auto custom-scrollbar">
+        <div className="space-y-4">
+          {chatMessages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`flex items-end gap-2 animate-message-in ${msg.sender.id === user?.id ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-xs md:max-w-md p-3 rounded-2xl ${
+                  msg.sender.id === user?.id
+                    ? 'bg-health-buddy-blue text-white rounded-br-lg'
+                    : 'bg-slate-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 rounded-bl-lg'
+                }`}
+              >
                 <p className="text-sm">{msg.text}</p>
-                <p className={`text-xs mt-1 text-right ${isSentByMe ? 'text-blue-100/80' : 'text-gray-500 dark:text-gray-400'}`}>
-                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
               </div>
             </div>
-          );
-        })}
-         <div ref={messagesEndRef} />
+          ))}
+        </div>
+        <div ref={messagesEndRef} />
       </div>
-
-      {/* Input Area */}
-      <div className="p-3 border-t border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 flex-shrink-0">
-        <form onSubmit={handleSendMessage} className="flex items-start space-x-2">
-          <textarea
+      <form onSubmit={handleSendMessage} className="p-4 border-t border-black/10 dark:border-white/10">
+        <div className="relative">
+          <input
+            type="text"
             value={newMessage}
-            onChange={handleTextareaInput}
+            onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message..."
-            className="flex-grow bg-black/10 dark:bg-white/10 rounded-lg p-2.5 text-sm text-gray-800 dark:text-gray-200 border-transparent focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue resize-none transition-all"
-            rows={1}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSendMessage(e);
-              }
-            }}
+            className="w-full rounded-full border-transparent bg-slate-200/60 dark:bg-slate-900/40 py-3 pl-4 pr-12 text-gray-800 dark:text-gray-200 shadow-sm transition-all duration-300 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue/80 focus:shadow-glow-blue"
           />
-          <button type="submit" className="bg-health-buddy-blue text-white rounded-lg p-2.5 h-full flex items-center justify-center shadow-md hover:shadow-glow-blue transition-all transform hover:scale-105 active:scale-100 focus:outline-none focus:ring-2 focus:ring-health-buddy-blue focus:ring-opacity-75 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:hover:shadow-none" disabled={!newMessage.trim()}>
+          <button
+            type="submit"
+            className="absolute inset-y-0 right-0 flex items-center justify-center h-full w-12 text-health-buddy-blue hover:brightness-125 transition-transform duration-200 active:scale-90 disabled:text-gray-400 dark:disabled:text-gray-500"
+            disabled={!newMessage.trim()}
+            aria-label="Send message"
+          >
             <Send size={20} />
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
+       <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); }
+      `}</style>
     </div>
   );
 };

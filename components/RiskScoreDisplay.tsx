@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { RiskLevel } from './types';
+import type { RiskLevel } from '../types';
 
 interface RiskScoreDisplayProps {
   score: number;
@@ -54,7 +54,7 @@ export const RiskScoreDisplay: React.FC<RiskScoreDisplayProps> = ({ score }) => 
 
   return (
     <div 
-      className="flex flex-col items-center justify-center p-6 bg-black/10 dark:bg-white/5 backdrop-blur-lg border border-white/20 dark:border-white/10 rounded-2xl max-w-sm mx-auto shadow-ios-dark"
+      className="flex flex-col items-center justify-center p-6 bg-slate-100/80 dark:bg-slate-800/30 backdrop-blur-lg border border-slate-300/50 dark:border-slate-700/50 rounded-2xl max-w-sm mx-auto shadow-ios-dark"
       role="region"
       aria-live="polite"
       aria-label={`Health Risk Assessment Result: ${score} out of 100, which is a ${level} risk.`}
@@ -89,7 +89,7 @@ export const RiskScoreDisplay: React.FC<RiskScoreDisplayProps> = ({ score }) => 
           <span className={`text-sm font-semibold ${textColor}`}>{level} Risk</span>
         </div>
       </div>
-       <p className="mt-4 text-gray-500 dark:text-gray-400 text-center text-xs max-w-xs">
+       <p className="mt-4 text-gray-500 dark:text-gray-300 text-center text-xs max-w-xs">
         This is a simulated score based on the provided data. Please consult a healthcare professional for an official medical diagnosis.
       </p>
     </div>
